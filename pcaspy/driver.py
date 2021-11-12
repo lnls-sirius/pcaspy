@@ -1,11 +1,14 @@
 from . import cas
 from .alarm import Severity, Alarm
-import collections.abc
 import operator
 import threading
 import time
 import sys
 import logging
+if sys.version_info[0] == 2 or (sys.version_info[0] == 3 and sys.version_info[1] < 3):
+    import collections
+else:
+    import collections.abc as collections
 if sys.hexversion >= 0x02070000:
     from logging import NullHandler
 else:
@@ -479,7 +482,7 @@ class PVInfo(object):
         :param limit: numeric scalar
         :param op: comparision operators, le, ge etc
         """
-        if isinstance(value, collections.abc.Iterable):
+        if isinstance(value, collections.Iterable):
             return any(op(v, limit) for v in value)
         else:
             return op(value, limit)
