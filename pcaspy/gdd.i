@@ -16,8 +16,11 @@ import sys
 if sys.version_info[0] > 2:
     str2char = lambda x: bytes(str(x),'utf8')
     numerics = (bool, int, float)
-    import collections.abc
-    is_sequence = lambda x: isinstance(x, collections.abc.Sequence)
+    if sys.version_info[0] == 3 and sys.version_info[1] < 3:
+        import collections
+    else:
+        import collections.abc as collections
+    is_sequence = lambda x: isinstance(x, collections.Sequence)
 else: 
     str2char = str
     numerics = (bool, int, float, long)
